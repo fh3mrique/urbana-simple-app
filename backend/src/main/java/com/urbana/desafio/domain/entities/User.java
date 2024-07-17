@@ -77,4 +77,7 @@ public class User {
     public Set<BoardingPassType> getBoardingPassTypes() {
         return boardingPassTypes;
     }
+
+    public void setBoardingPassTypes(Set<BoardingPassType> boardingPassTypes) {
+    }
 }

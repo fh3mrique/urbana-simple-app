@@ -5,12 +5,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_boarding-pass")
-public class BoardingPassType {
+    @Table(name = "tb_boarding_pass")
+    public class BoardingPassType {
 
-    @Id
-    private Long id;
-    private String typeBoard;
+        @Id
+        private Long id;
+        private String typeBoard;
 
     public BoardingPassType(Long id, String typeBoard) {
         this.id = id;
