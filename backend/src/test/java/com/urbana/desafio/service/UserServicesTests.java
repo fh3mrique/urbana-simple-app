@@ -49,6 +49,8 @@ public class UserServicesTests {
     private Long idNaoExistente;
     private Long idDependente;
 
+    private UserInsertDTO dto;
+
     @BeforeEach
     void setUp() throws Exception {
         idExistente = 1L;
@@ -56,6 +58,7 @@ public class UserServicesTests {
         idDependente = 4L;
 
         /*dto = Factory.criarProdutoDTO();*/
+        dto = UserFactory.createDefaultUserInsertDTO();
     }
 
     @Test
@@ -128,6 +131,21 @@ public class UserServicesTests {
 
         assertThrows(ResourcesNotFoundExceptions.class, () -> {
             service.delete(idNaoExistente);
+        });
+    }
+
+    //TESTANDO MÉTODO "update" DO SERVICE
+    @Test
+    public void updateShouldProductDtoWhenIdExistir() {
+        UserInsertDTO result = service.update(idExistente, dto);
+
+        Assertions.assertNotNull(result);
+    }
+
+    @Test
+    public void updateShouldLancaEntityNotFoundExceptionsWhenIdNaoExistir() {
+        Assertions.assertThrows(ResourcesNotFoundExceptions.class, ()->{
+            service.update(idNaoExistente, dto);
         });
     }
 
