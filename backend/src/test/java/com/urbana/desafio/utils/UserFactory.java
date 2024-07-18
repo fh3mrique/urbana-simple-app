@@ -3,7 +3,7 @@ package com.urbana.desafio.utils;
 
 import com.urbana.desafio.api.dtos.UserDTO;
 import com.urbana.desafio.api.dtos.UserInsertDTO;
-import com.urbana.desafio.domain.entities.BoardingPassType;
+import com.urbana.desafio.domain.entities.BoardingPass;
 import com.urbana.desafio.domain.entities.User;
 
 import java.util.HashSet;
@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class UserFactory {
 
-    public static User createUser(Long id, String name, String email, String password, Set<BoardingPassType> boardingPassTypes) {
+    public static User createUser(Long id, String name, String email, String password, Set<BoardingPass> boardingPassTypes) {
         User user = new User();
         user.setId(id);
         user.setName(name);
@@ -21,31 +21,31 @@ public class UserFactory {
         return user;
     }
 
-    public static Set<BoardingPassType> createBoardingPassTypes(BoardingPassType... boardingPassTypes) {
-        Set<BoardingPassType> types = new HashSet<>();
-        for (BoardingPassType type : boardingPassTypes) {
+    public static Set<BoardingPass> createBoardingPassTypes(BoardingPass... boardingPassTypes) {
+        Set<BoardingPass> types = new HashSet<>();
+        for (BoardingPass type : boardingPassTypes) {
             types.add(type);
         }
         return types;
     }
 
-    public static BoardingPassType createBoardingPassType1() {
-        return new BoardingPassType(1L, "Economy");
+    public static BoardingPass createBoardingPassType1() {
+        return new BoardingPass(1L, "Economy");
     }
 
-    public static BoardingPassType createBoardingPassType2() {
-        return new BoardingPassType(2L, "Business");
+    public static BoardingPass createBoardingPassType2() {
+        return new BoardingPass(2L, "Business");
     }
 
-    public static Set<BoardingPassType> createDefaultBoardingPassTypes() {
-        Set<BoardingPassType> types = new HashSet<>();
+    public static Set<BoardingPass> createDefaultBoardingPassTypes() {
+        Set<BoardingPass> types = new HashSet<>();
         types.add(createBoardingPassType1());
         types.add(createBoardingPassType2());
         return types;
     }
 
     public static User createUser1() {
-        Set<BoardingPassType> boardingPassTypes = createDefaultBoardingPassTypes();
+        Set<BoardingPass> boardingPassTypes = createDefaultBoardingPassTypes();
         User user = new User();
         user.setId(1L);
         user.setName("John Doe");
@@ -56,7 +56,7 @@ public class UserFactory {
     }
 
     public static User createUser2() {
-        Set<BoardingPassType> boardingPassTypes = createDefaultBoardingPassTypes();
+        Set<BoardingPass> boardingPassTypes = createDefaultBoardingPassTypes();
         User user = new User();
         user.setId(2L);
         user.setName("Jane Doe");
@@ -74,12 +74,12 @@ public class UserFactory {
         return new UserDTO(createUser2());
     }
 
-    public static UserInsertDTO createUserInsertDTO(Long id, String name, String email, String password, Set<BoardingPassType> boardingPassTypes) {
+    public static UserInsertDTO createUserInsertDTO(Long id, String name, String email, String password, Set<BoardingPass> boardingPassTypes) {
         return new UserInsertDTO(id, name, email, password, boardingPassTypes);
     }
 
     public static UserInsertDTO createDefaultUserInsertDTO() {
-        Set<BoardingPassType> defaultBoardingPassTypes = createDefaultBoardingPassTypes();
+        Set<BoardingPass> defaultBoardingPassTypes = createDefaultBoardingPassTypes();
         return new UserInsertDTO(1L, "Default User", "default@example.com", "defaultPassword", defaultBoardingPassTypes);
     }
 }

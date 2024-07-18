@@ -3,9 +3,9 @@ package com.urbana.desafio.service;
 
 import com.urbana.desafio.api.dtos.UserDTO;
 import com.urbana.desafio.api.dtos.UserInsertDTO;
-import com.urbana.desafio.domain.entities.BoardingPassType;
+import com.urbana.desafio.domain.entities.BoardingPass;
 import com.urbana.desafio.domain.entities.User;
-import com.urbana.desafio.domain.repositories.BoardingPassTypeRepository;
+import com.urbana.desafio.domain.repositories.BoardingPassRepository;
 import com.urbana.desafio.domain.repositories.UserRepository;
 import com.urbana.desafio.services.UserService;
 import com.urbana.desafio.services.exceptions.DatabaseExceptions;
@@ -18,8 +18,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
@@ -43,7 +41,7 @@ public class UserServicesTests {
     private UserRepository repository;
 
     @Mock
-    private BoardingPassTypeRepository boardingPassTypeRepository;
+    private BoardingPassRepository boardingPassTypeRepository;
 
     private Long idExistente;
     private Long idNaoExistente;
@@ -63,10 +61,10 @@ public class UserServicesTests {
 
     @Test
     public void shouldReturnAllUsersAsUserDTOs() {
-        BoardingPassType type1 = new BoardingPassType(1L, "COMUM");
-        BoardingPassType type2 = new BoardingPassType(2L, "ESTUDANTE");
+        BoardingPass type1 = new BoardingPass(1L, "COMUM");
+        BoardingPass type2 = new BoardingPass(2L, "ESTUDANTE");
 
-        Set<BoardingPassType> boardingPassTypes = UserFactory.createBoardingPassTypes(type1, type2);
+        Set<BoardingPass> boardingPassTypes = UserFactory.createBoardingPassTypes(type1, type2);
 
         User user1 = UserFactory.createUser(1L, "John Doe", "john.doe@example.com", "password123", boardingPassTypes);
         User user2 = UserFactory.createUser(2L, "Jane Doe", "jane.doe@example.com", "password456", boardingPassTypes);
@@ -82,10 +80,10 @@ public class UserServicesTests {
 
     @Test
     public void shouldInsertUserAndReturnUserInsertDTO() {
-        BoardingPassType type1 = UserFactory.createBoardingPassType1();
-        BoardingPassType type2 = UserFactory.createBoardingPassType2();
+        BoardingPass type1 = UserFactory.createBoardingPassType1();
+        BoardingPass type2 = UserFactory.createBoardingPassType2();
 
-        Set<BoardingPassType> boardingPassTypes = UserFactory.createBoardingPassTypes(type1, type2);
+        Set<BoardingPass> boardingPassTypes = UserFactory.createBoardingPassTypes(type1, type2);
 
         UserInsertDTO userInsertDTO = new UserInsertDTO(null, "John Doe", "john.doe@example.com", "password123", boardingPassTypes);
 
