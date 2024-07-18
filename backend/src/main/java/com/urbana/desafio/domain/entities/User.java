@@ -25,12 +25,12 @@ public class User {
                     joinColumns = @JoinColumn(name = "user_id"),
                     inverseJoinColumns = @JoinColumn(name = "passtype_id")
             )
-    private Set<BoardingPassType> boardingPassTypes = new HashSet<>();
+    private Set<BoardingPass> boardingPassTypes = new HashSet<>();
 
     public User (){
 
     }
-    public User(Long id, String name, String email, String password, Set<BoardingPassType> boardingPassTypes) {
+    public User(Long id, String name, String email, String password, Set<BoardingPass> boardingPassTypes) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -74,10 +74,10 @@ public class User {
 
     // O BoardingPassType não deve ter setter, pois a inclusão de
     // um catão deve ser feito por um endpoit
-    public Set<BoardingPassType> getBoardingPassTypes() {
+    public Set<BoardingPass> getBoardingPassTypes() {
         return boardingPassTypes;
     }
 
-    public void setBoardingPassTypes(Set<BoardingPassType> boardingPassTypes) {
+    public void setBoardingPassTypes(Set<BoardingPass> boardingPassTypes) {
     }
 }

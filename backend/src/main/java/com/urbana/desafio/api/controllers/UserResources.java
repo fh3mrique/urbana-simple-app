@@ -1,7 +1,9 @@
 package com.urbana.desafio.api.controllers;
 
+import com.urbana.desafio.api.dtos.BoardingPassDTO;
 import com.urbana.desafio.api.dtos.UserDTO;
 import com.urbana.desafio.api.dtos.UserInsertDTO;
+import com.urbana.desafio.services.BoardingPassService;
 import com.urbana.desafio.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +18,11 @@ public class UserResources {
 
     private UserService service;
 
-    public UserResources(UserService service) {
+    private BoardingPassService boardingPassService;
+
+    public UserResources(UserService service, BoardingPassService boardingPassService) {
         this.service = service;
+        this.boardingPassService = boardingPassService;
     }
 
     @GetMapping
@@ -49,6 +54,38 @@ public class UserResources {
 
         service.delete(id);
 
+        return ResponseEntity.noContent().build();
+    }
+
+    //ESPECIAIS
+    @PutMapping("/{userId}/{boardingPassId}/activate")
+    public ResponseEntity<Void> activateBoardingPass(@PathVariable Long userId, @PathVariable Long boardingPassId) {
+        boardingPassService.activate(userId, boardingPassId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{userId}/{boardingPassId}/deactivate")
+    public ResponseEntity<Void> deactivateBoardingPass(@PathVariable Long userId, @PathVariable Long boardingPassId) {
+        boardingPassService.deactivate(userId, boardingPassId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{userId}/boarding-passes")
+    public ResponseEntity<BoardingPassDTO> addBoardingPassToUser(@PathVariable Long userId, @RequestBody BoardingPassDTO dto) {
+        BoardingPassDTO boardingPass = boardingPassService.addBoardingPassToUser(userId, dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(boardingPass.id()).toUri();
+        return ResponseEntity.created(uri).body(boardingPass);
+    }
+
+    @GetMapping("/{userId}/boarding-passes")
+    public ResponseEntity<List<BoardingPassDTO>> findBoardingPassesByUser(@PathVariable Long userId) {
+        List<BoardingPassDTO> boardingPasses = boardingPassService.findBoardingPassesByUser(userId);
+        return ResponseEntity.ok().body(boardingPasses);
+    }
+
+    @DeleteMapping("/{userId}/boarding-passes/{boardingPassId}")
+    public ResponseEntity<Void> deleteBoardingPassFromUser(@PathVariable Long userId, @PathVariable Long boardingPassId) {
+        boardingPassService.deleteBoardingPassFromUser(userId, boardingPassId);
         return ResponseEntity.noContent().build();
     }
 }

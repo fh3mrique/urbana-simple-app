@@ -2,9 +2,9 @@ package com.urbana.desafio.services;
 
 import com.urbana.desafio.api.dtos.UserDTO;
 import com.urbana.desafio.api.dtos.UserInsertDTO;
-import com.urbana.desafio.domain.entities.BoardingPassType;
+import com.urbana.desafio.domain.entities.BoardingPass;
 import com.urbana.desafio.domain.entities.User;
-import com.urbana.desafio.domain.repositories.BoardingPassTypeRepository;
+import com.urbana.desafio.domain.repositories.BoardingPassRepository;
 import com.urbana.desafio.domain.repositories.UserRepository;
 import com.urbana.desafio.services.exceptions.DatabaseExceptions;
 import com.urbana.desafio.services.exceptions.ResourcesNotFoundExceptions;
@@ -23,9 +23,9 @@ public class UserService {
 
     private UserRepository repository;
 
-    private BoardingPassTypeRepository boardingPassTypeRepository;
+    private BoardingPassRepository boardingPassTypeRepository;
 
-    public UserService(UserRepository repository, BoardingPassTypeRepository boardingPassTypeRepository) {
+    public UserService(UserRepository repository, BoardingPassRepository boardingPassTypeRepository) {
         this.repository = repository;
         this.boardingPassTypeRepository = boardingPassTypeRepository;
     }
@@ -84,8 +84,8 @@ public class UserService {
 
         entity.getBoardingPassTypes().clear();
 
-        for (BoardingPassType catDTO : dto.boardingPassTypes()) {
-            BoardingPassType cat = boardingPassTypeRepository.findById(catDTO.getId())
+        for (BoardingPass catDTO : dto.boardingPassTypes()) {
+            BoardingPass cat = boardingPassTypeRepository.findById(catDTO.getId())
                     .orElseThrow(() -> new RuntimeException("BoardingPassType not found"));
             entity.getBoardingPassTypes().add(cat);
         }
