@@ -2,8 +2,10 @@ package com.urbana.desafio.service;
 
 
 import com.urbana.desafio.api.dtos.UserDTO;
+import com.urbana.desafio.api.dtos.UserInsertDTO;
 import com.urbana.desafio.domain.entities.BoardingPassType;
 import com.urbana.desafio.domain.entities.User;
+import com.urbana.desafio.domain.repositories.BoardingPassTypeRepository;
 import com.urbana.desafio.domain.repositories.UserRepository;
 import com.urbana.desafio.services.UserService;
 import com.urbana.desafio.utils.UserFactory;
@@ -17,9 +19,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -30,6 +34,9 @@ public class UserServicesTests {
 
     @Mock
     private UserRepository repository;
+
+    @Mock
+    private BoardingPassTypeRepository boardingPassTypeRepository;
 
     @BeforeEach
     public void setUp() {
@@ -53,6 +60,32 @@ public class UserServicesTests {
         assertEquals(2, users.size());
         assertEquals("John Doe", users.get(0).name());
         assertEquals("Jane Doe", users.get(1).name());
+    }
+
+    @Test
+    public void shouldInsertUserAndReturnUserInsertDTO() {
+        BoardingPassType type1 = UserFactory.createBoardingPassType1();
+        BoardingPassType type2 = UserFactory.createBoardingPassType2();
+
+        Set<BoardingPassType> boardingPassTypes = UserFactory.createBoardingPassTypes(type1, type2);
+
+        UserInsertDTO userInsertDTO = new UserInsertDTO(null, "John Doe", "john.doe@example.com", "password123", boardingPassTypes);
+
+        User userEntity = UserFactory.createUser(null, "John Doe", "john.doe@example.com", "password123", boardingPassTypes);
+
+        // Configurar os mocks
+        when(boardingPassTypeRepository.findById(type1.getId())).thenReturn(Optional.of(type1));
+        when(boardingPassTypeRepository.findById(type2.getId())).thenReturn(Optional.of(type2));
+        when(repository.save(any(User.class))).thenReturn(userEntity);
+
+        UserInsertDTO result = service.insert(userInsertDTO);
+
+        assertEquals(userInsertDTO.name(), result.name());
+        assertEquals(userInsertDTO.email(), result.email());
+        assertEquals(userInsertDTO.password(), result.password());
+/*
+        assertEquals(userInsertDTO.boardingPassTypes().size(), result.boardingPassTypes().size());
+*/
     }
 
 
