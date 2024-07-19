@@ -64,4 +64,9 @@ export class UserService {
     getUsers(): Observable<UserListResponse> {
         return this.http.get<UserListResponse>(this.apiUrl);
     }
+
+    deleteBoardingPass(userId: number, boardingPassId: number): Observable<void> {
+        const url = `${this.apiUrl}/${userId}/boarding-passes/${boardingPassId}`;
+        return this.http.delete<void>(url);
+      }
 } 

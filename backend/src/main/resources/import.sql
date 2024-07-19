@@ -19,3 +19,4 @@ INSERT INTO tb_boarding_pass (id, number, status, type_boarding_pass) VALUES(6, 
 INSERT INTO tb_user_passtype (user_id, passtype_id) VALUES (1, 1); -- John Doe tem um BoardingPassType 'Economy'
 INSERT INTO tb_user_passtype (user_id, passtype_id) VALUES (1, 2); -- John Doe também tem um BoardingPassType 'Business'
 INSERT INTO tb_user_passtype (user_id, passtype_id) VALUES (2, 3); -- Jane Smith tem um BoardingPassType 'First Class'
+INSERT INTO tb_user_passtype (user_id, passtype_id) VALUES (2, 1); -- Jane Smith tem um BoardingPassType 'First Class'
