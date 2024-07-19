@@ -1,0 +1,67 @@
+<mat-card>
+    <mat-card-content>
+        <form class="user-form">
+            <div class="user-form__row">
+                <mat-form-field class="user-form__item user-form__item-100">
+                    <mat-label>Nome:</mat-label>
+                    <input type="text" name="nome" matInput [(ngModel)]="userSelected.name" required>
+                    <mat-error>O Nome é obrigatório.</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="user-form__row">
+                <mat-form-field class="user-form__item user-form__item-50">
+                    <mat-label>Email:</mat-label>
+                    <input 
+                    type="text"
+                    name="email"
+                    matInput
+                    [(ngModel)]="userSelected.email"
+                    #emailControl="ngModel"
+                    required
+                    appEmailPatternValidator
+                    >
+                    <mat-error *ngIf="emailControl.hasError('required')">O Email é obrigatório</mat-error>
+                    <mat-error *ngIf="emailControl.hasError('invalidEmailPattern') && !emailControl.hasError('required')">O Email é inválido</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="user-form__item user-form__item-50">
+                    <mat-label>Senha</mat-label>
+                    <input 
+                        type="text"
+                        name="senha"
+                        matInput
+                        [(ngModel)]="userSelected.password"
+                        #paswordControl="ngModel"
+                        #appPasswordStrenthValidator
+                        required
+                    >
+                    <mat-error *ngIf="emailControl.hasError('required')">A senha é obrigatório</mat-error>
+                    <mat-error *ngIf="paswordControl.hasError('invalidPasswordStrength') && !paswordControl.hasError('required')">Digite uma senha mais forte</mat-error>
+
+                </mat-form-field>
+            </div>
+
+            <!-- <div class="user-form__row">
+                <div class="user-form__boardingPasses">
+                    <mat-divider></mat-divider>
+                </div>
+            </div> -->
+
+            <div class="user-form__row">
+                <div class="user-form__boardingPasses">
+                    <mat-divider></mat-divider>
+                    <div *ngFor="let pass of userSelected.boardingPasses">
+                        <div class="boarding-pass">
+                            <!-- <p>ID: {{pass.id}}</p> -->
+                            <p>Number: {{pass.number}}</p>
+                            <p>Status: {{pass.status ? 'Ativo' : 'Inativo'}}</p>
+                            <p>Tipo: {{pass.typeBoardingPass}}</p>
+                            <img [src]="getImageForType(pass.typeBoardingPass)" alt="Imagem de {{pass.typeBoardingPass}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,44 @@
+.user-form{
+    height: 100%;
+    padding: 20px;
+    
+
+    &__row{
+        width: 100%;
+        display: flex;
+    }
+
+    &__item{
+        padding: 5px;
+    }
+    &__item-50{
+        width: 40%;
+    }
+    &__item-100{
+        
+        width: 80%;
+    }
+}
+
+.user-form__boardingPasses {
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .boarding-pass {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+    width: 220px;
+    margin-left: 30px;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+  }
+  
+  .boarding-pass img {
+    max-width: 120px;
+    height: auto;
+  }
