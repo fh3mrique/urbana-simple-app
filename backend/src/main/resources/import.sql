@@ -1,6 +1,6 @@
 -- Inserir dados na tabela tb_users
-INSERT INTO tb_users (name, email, password) VALUES ('John Doe', 'john.doe@example.com', 'password123');
-INSERT INTO tb_users (name, email, password) VALUES ('Jane Smith', 'jane.smith@example.com', 'password456');
+INSERT INTO tb_users (name, email, password, user_role) VALUES ('John Doe', 'john.doe@example.com', '$2a$12$/xenxVn7vzKd0DgzPwhr1uurZUQzU9FADL4tma/mPcPuA28Gu2M8S', 'admin');
+INSERT INTO tb_users (name, email, password, user_role) VALUES ('Jane Smith', 'jane.smith@example.com', '$2a$12$/xenxVn7vzKd0DgzPwhr1uurZUQzU9FADL4tma/mPcPuA28Gu2M8S', 'admin');
 
 -- Inserir dados na tabela tb_boarding-pass
 INSERT INTO tb_boarding_pass (id, number, status, type_boarding_pass) VALUES (1, 1001, TRUE, 'COMUM');
