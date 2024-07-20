@@ -68,5 +68,13 @@ export class UserService {
     deleteBoardingPass(userId: number, boardingPassId: number): Observable<void> {
         const url = `${this.apiUrl}/${userId}/boarding-passes/${boardingPassId}`;
         return this.http.delete<void>(url);
-      }
+    }
+
+    activateBoardingPass(userId: number, boardingPassId: number): Observable<void> {
+        return this.http.put<void>(`${this.apiUrl}/${userId}/${boardingPassId}/activate`, {});
+    }
+
+    deactivateBoardingPass(userId: number, boardingPassId: number): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/${userId}/${boardingPassId}/deactivate`, {});
+    }
 } 

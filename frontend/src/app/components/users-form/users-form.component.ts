@@ -43,4 +43,27 @@ export class UsersFormComponent implements OnInit, OnChanges {
       });
     }
   }
+
+  toggleBoardingPassStatus(boardingPassId: number, status: boolean): void {
+    if (this.userSelected && this.userSelected.id) {
+      if (status) {
+        this.userService.deactivateBoardingPass(this.userSelected.id, boardingPassId).subscribe(() => {
+          this.snackBar.open('Cartão desativado com sucesso!', 'Fechar', { duration: 3000 });
+          this.updateBoardingPassStatus(boardingPassId, false);
+        });
+      } else {
+        this.userService.activateBoardingPass(this.userSelected.id, boardingPassId).subscribe(() => {
+          this.snackBar.open('Cartão ativado com sucesso!', 'Fechar', { duration: 3000 });
+          this.updateBoardingPassStatus(boardingPassId, true);
+        });
+      }
+    }
+  }
+
+  private updateBoardingPassStatus(boardingPassId: number, status: boolean): void {
+    const pass = this.userSelected.boardingPasses.find(pass => pass.id === boardingPassId);
+    if (pass) {
+      pass.status = status;
+    }
+  }
 }
