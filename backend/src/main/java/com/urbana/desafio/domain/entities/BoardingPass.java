@@ -3,6 +3,9 @@ package com.urbana.desafio.domain.entities;
 import com.urbana.desafio.domain.enums.TypeBoardingPass;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "tb_boarding_pass")
 public class BoardingPass {
@@ -16,6 +19,9 @@ public class BoardingPass {
 
     @Enumerated(EnumType.STRING)
     private TypeBoardingPass typeBoardingPass;
+
+    @ManyToMany(mappedBy = "boardingPassTypes")
+    private Set<User> users = new HashSet<>();
 
     public BoardingPass() {
 

@@ -6,10 +6,13 @@ import com.urbana.desafio.domain.entities.User;
 import com.urbana.desafio.domain.repositories.BoardingPassRepository;
 import com.urbana.desafio.domain.repositories.UserRepository;
 import com.urbana.desafio.services.exceptions.ResourcesNotFoundExceptions;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,18 +71,19 @@ public class BoardingPassService {
         return boardingPasses.stream().map(BoardingPassDTO::new).collect(Collectors.toList());
     }
 
-    @Transactional
     public void deleteBoardingPassFromUser(Long userId, Long boardingPassId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourcesNotFoundExceptions("User not found"));
-        BoardingPass boardingPass = user.getBoardingPassTypes().stream()
-                .filter(bp -> bp.getId().equals(boardingPassId))
-                .findFirst()
-                .orElseThrow(() -> new ResourcesNotFoundExceptions("BoardingPass not found"));
+        Optional<User> userOpt = userRepository.findById(userId);
+        Optional<BoardingPass> boardingPassOpt = repository.findById(boardingPassId);
 
-        user.getBoardingPassTypes().remove(boardingPass);
-        userRepository.save(user);
-        repository.delete(boardingPass);
+        if (userOpt.isPresent() && boardingPassOpt.isPresent()) {
+            User user = userOpt.get();
+            BoardingPass boardingPass = boardingPassOpt.get();
+
+            user.getBoardingPassTypes().remove(boardingPass);
+            userRepository.save(user);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário ou cartão de embarque não encontrado.");
+        }
     }
 
     private void copyDtoToEntity(BoardingPassDTO dto, BoardingPass entity) {
