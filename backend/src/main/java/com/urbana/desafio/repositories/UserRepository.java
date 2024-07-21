@@ -1,4 +1,4 @@
-package com.urbana.desafio.domain.repositories;
+package com.urbana.desafio.repositories;
 
 import com.urbana.desafio.domain.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;

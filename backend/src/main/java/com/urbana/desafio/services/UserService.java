@@ -1,11 +1,10 @@
 package com.urbana.desafio.services;
 
 import com.urbana.desafio.api.dtos.UserDTO;
-import com.urbana.desafio.api.dtos.UserInsertDTO;
-import com.urbana.desafio.domain.entities.BoardingPass;
+import com.urbana.desafio.api.dtos.UserInsertUpdateDTO;
 import com.urbana.desafio.domain.entities.User;
-import com.urbana.desafio.domain.repositories.BoardingPassRepository;
-import com.urbana.desafio.domain.repositories.UserRepository;
+import com.urbana.desafio.repositories.BoardingPassRepository;
+import com.urbana.desafio.repositories.UserRepository;
 import com.urbana.desafio.services.exceptions.DatabaseExceptions;
 import com.urbana.desafio.services.exceptions.ResourcesNotFoundExceptions;
 import jakarta.persistence.EntityNotFoundException;
@@ -38,18 +37,18 @@ public class UserService {
     }
 
     @Transactional
-    public UserInsertDTO insert(UserInsertDTO dto) {
+    public UserInsertUpdateDTO insert(UserInsertUpdateDTO dto) {
         User entity = new User();
 
         copyDTOtoEnrity(dto, entity);
 
         entity = repository.save(entity);
 
-        return new UserInsertDTO(entity);
+        return new UserInsertUpdateDTO(entity);
     }
 
     @Transactional
-    public UserInsertDTO update(Long id, UserInsertDTO dto) {
+    public UserInsertUpdateDTO update(Long id, UserInsertUpdateDTO dto) {
         try {
             User entity = repository.getReferenceById(id);
 
@@ -57,7 +56,7 @@ public class UserService {
 
             entity = repository.save(entity);
 
-            return new UserInsertDTO(entity);
+            return new UserInsertUpdateDTO(entity);
         }
         catch (EntityNotFoundException e)
         {
@@ -76,19 +75,10 @@ public class UserService {
         }
     }
 
-    private void copyDTOtoEnrity(UserInsertDTO dto, User entity) {
-
+    private void copyDTOtoEnrity(UserInsertUpdateDTO dto, User entity) {
         entity.setName(dto.name());
         entity.setEmail(dto.email());
         entity.setPassword(dto.password());
-
-        entity.getBoardingPassTypes().clear();
-
-        for (BoardingPass catDTO : dto.boardingPassTypes()) {
-            BoardingPass cat = boardingPassTypeRepository.findById(catDTO.getId())
-                    .orElseThrow(() -> new RuntimeException("BoardingPassType not found"));
-            entity.getBoardingPassTypes().add(cat);
-        }
     }
 
 }

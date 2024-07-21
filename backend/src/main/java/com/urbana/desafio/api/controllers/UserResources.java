@@ -2,7 +2,7 @@ package com.urbana.desafio.api.controllers;
 
 import com.urbana.desafio.api.dtos.BoardingPassDTO;
 import com.urbana.desafio.api.dtos.UserDTO;
-import com.urbana.desafio.api.dtos.UserInsertDTO;
+import com.urbana.desafio.api.dtos.UserInsertUpdateDTO;
 import com.urbana.desafio.services.BoardingPassService;
 import com.urbana.desafio.services.UserService;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +33,7 @@ public class UserResources {
     }
 
     @PostMapping
-    public ResponseEntity<UserInsertDTO> insert(@RequestBody UserInsertDTO dto){
+    public ResponseEntity<UserInsertUpdateDTO> insert(@RequestBody UserInsertUpdateDTO dto){
 
         dto = service.insert(dto);
 
@@ -43,7 +43,7 @@ public class UserResources {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserInsertDTO> update(@PathVariable Long id, @RequestBody UserInsertDTO dto) {
+    public ResponseEntity<UserInsertUpdateDTO> update(@PathVariable Long id, @RequestBody UserInsertUpdateDTO dto) {
 
         dto = service.update(id, dto);
 

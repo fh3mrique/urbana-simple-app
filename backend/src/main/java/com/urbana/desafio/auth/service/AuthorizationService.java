@@ -4,7 +4,7 @@ import com.urbana.desafio.api.dtos.AuthetinticationDTO;
 import com.urbana.desafio.api.dtos.LoginResponseDTO;
 import com.urbana.desafio.api.dtos.RegisterDTO;
 import com.urbana.desafio.domain.entities.User;
-import com.urbana.desafio.domain.repositories.UserRepository;
+import com.urbana.desafio.repositories.UserRepository;
 import com.urbana.desafio.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -19,8 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import jakarta.validation.Valid;
-
-import java.util.Date;
 
 @Service
 public class AuthorizationService implements UserDetailsService{
