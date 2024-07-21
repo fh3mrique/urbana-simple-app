@@ -3,7 +3,6 @@ import { UserService } from './services/users.service';
 import { boardingPassService } from './services/boading-pass.service';
 import { UserListResponse } from './types/users-list-response';
 import { IUser } from './interfaces/user/user.interface';
-
 import { UserBeforeAndAfterDialogComponent } from './components/user-before-and-after-dialog/user-before-and-after-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -11,13 +10,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
 
   userSelected: IUser = {} as IUser;
   userSelectedIndex: number | undefined;
-
   usersList: UserListResponse = [];
   boardingPassList: any = [];
 
@@ -25,11 +23,11 @@ export class AppComponent implements OnInit {
     private readonly _usersService: UserService,
     private readonly _usersBoadingPass: boardingPassService,
     private readonly _matDialog: MatDialog,
-    private snackBar: MatSnackBar, 
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
-    this.getUsers()
+    this.getUsers();
   }
 
   onUserSelected(userIndex: number) {
@@ -41,28 +39,59 @@ export class AppComponent implements OnInit {
     }
   }
 
-  onFormSubmit() {
+  onFormSubmit(updatedUser: IUser) {
     if (this.userSelectedIndex === undefined) return;
 
     const originalUser = this.usersList[this.userSelectedIndex];
-    this.opeBeforeAndDialog(originalUser, this.userSelected, this.userSelectedIndex);
+    this.opeBeforeAndDialog(originalUser, updatedUser, this.userSelectedIndex);
+  }
+
+  onDeleteBoardingPass(boardingPassId: number) {
+    if (this.userSelected && this.userSelected.id) {
+      this._usersService.deleteBoardingPass(this.userSelected.id, boardingPassId).subscribe(() => {
+        this.snackBar.open('Cartão excluído com sucesso!', 'Fechar', { duration: 3000 });
+        this.userSelected.boardingPasses = this.userSelected.boardingPasses.filter(pass => pass.id !== boardingPassId);
+      });
+    }
+  }
+
+  onToggleBoardingPassStatus({ boardingPassId, status }: { boardingPassId: number, status: boolean }) {
+    if (this.userSelected && this.userSelected.id) {
+      if (status) {
+        this._usersService.deactivateBoardingPass(this.userSelected.id, boardingPassId).subscribe(() => {
+          this.snackBar.open('Cartão desativado com sucesso!', 'Fechar', { duration: 3000 });
+          this.updateBoardingPassStatus(boardingPassId, false);
+        });
+      } else {
+        this._usersService.activateBoardingPass(this.userSelected.id, boardingPassId).subscribe(() => {
+          this.snackBar.open('Cartão ativado com sucesso!', 'Fechar', { duration: 3000 });
+          this.updateBoardingPassStatus(boardingPassId, true);
+        });
+      }
+    }
+  }
+
+  private updateBoardingPassStatus(boardingPassId: number, status: boolean): void {
+    const pass = this.userSelected.boardingPasses.find(pass => pass.id === boardingPassId);
+    if (pass) {
+      pass.status = status;
+    }
   }
 
   opeBeforeAndDialog(originalUser: IUser, updatedUser: IUser, userSelectedIndex: number) {
     const dialogRef = this._matDialog.open(UserBeforeAndAfterDialogComponent, {
-      data:{
+      data: {
         originalUser: originalUser,
         updatedUser: updatedUser
       },
       minWidth: '80%',
-    }
-    )
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if(result){
-        this.confirmUserUpdate(updatedUser, userSelectedIndex)
+      if (result) {
+        this.confirmUserUpdate(updatedUser, userSelectedIndex);
       }
-    })
+    });
   }
 
   confirmUserUpdate(updatedUser: IUser, userSelectedIndex: number) {
@@ -90,6 +119,6 @@ export class AppComponent implements OnInit {
   private getBoadingPasses() {
     this._usersBoadingPass.getBoardingPasses().subscribe((boardingPassResponse) => {
       this.boardingPassList = boardingPassResponse;
-    })
+    });
   }
 }

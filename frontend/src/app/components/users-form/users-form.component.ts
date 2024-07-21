@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ElementRef } from '@angular/core';
 import { IUser } from '../../interfaces/user/user.interface';
-import { UserService } from '../../services/users.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -12,17 +10,14 @@ import { NgForm } from '@angular/forms';
 export class UsersFormComponent implements OnInit, OnChanges {
 
   @Input() userSelected: IUser = {} as IUser;
-
-  @Output('onFormSubmit') onFormSubmitEmitt = new EventEmitter<IUser>();
+  @Output() onFormSubmit = new EventEmitter<IUser>();
+  @Output() onDeleteBoardingPass = new EventEmitter<number>();
+  @Output() onToggleBoardingPassStatus = new EventEmitter<{ boardingPassId: number, status: boolean }>();
 
   displayedColumns: string[] = ['id', 'typeBoardingPass', 'number', 'status', 'actions' ];
 
-  constructor(
-    private userService: UserService, 
-    private snackBar: MatSnackBar, 
-    private readonly _elRef: ElementRef
-  ) {}
-  
+  constructor(private readonly _elRef: ElementRef) {}
+
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -42,18 +37,18 @@ export class UsersFormComponent implements OnInit, OnChanges {
     }
   }
 
-  onFormSubmit(form: NgForm) {
+  submitForm(form: NgForm) { // Renomeie aqui
     if (form.invalid) {
       this.focusOnInvalidControl(form);
       return;
     }
 
-    this.onFormSubmitEmitt.emit(this.userSelected);
+    this.onFormSubmit.emit(this.userSelected);
   }
 
   focusOnInvalidControl(form: NgForm) {
     for (const control of Object.keys(form.controls)) {
-      if(form.controls[control].invalid) {
+      if (form.controls[control].invalid) {
         const invalidControl: HTMLElement = this._elRef.nativeElement.querySelector(`[name=${control}]`);
         invalidControl.focus();
         break;
@@ -62,35 +57,11 @@ export class UsersFormComponent implements OnInit, OnChanges {
   }
 
   deleteBoardingPass(boardingPassId: number): void {
-    if (this.userSelected && this.userSelected.id) {
-      this.userService.deleteBoardingPass(this.userSelected.id, boardingPassId).subscribe(() => {
-        this.snackBar.open('Cartão excluído com sucesso!', 'Fechar', { duration: 3000 });
-        this.userSelected.boardingPasses = this.userSelected.boardingPasses.filter(pass => pass.id !== boardingPassId);
-      });
-    }
+    this.onDeleteBoardingPass.emit(boardingPassId);
   }
 
   toggleBoardingPassStatus(boardingPassId: number, status: boolean): void {
-    if (this.userSelected && this.userSelected.id) {
-      if (status) {
-        this.userService.deactivateBoardingPass(this.userSelected.id, boardingPassId).subscribe(() => {
-          this.snackBar.open('Cartão desativado com sucesso!', 'Fechar', { duration: 3000 });
-          this.updateBoardingPassStatus(boardingPassId, false);
-        });
-      } else {
-        this.userService.activateBoardingPass(this.userSelected.id, boardingPassId).subscribe(() => {
-          this.snackBar.open('Cartão ativado com sucesso!', 'Fechar', { duration: 3000 });
-          this.updateBoardingPassStatus(boardingPassId, true);
-        });
-      }
-    }
-  }
-
-  private updateBoardingPassStatus(boardingPassId: number, status: boolean): void {
-    const pass = this.userSelected.boardingPasses.find(pass => pass.id === boardingPassId);
-    if (pass) {
-      pass.status = status;
-    }
+    this.onToggleBoardingPassStatus.emit({ boardingPassId, status });
   }
 
   handleActionClick(event: MouseEvent): void {
