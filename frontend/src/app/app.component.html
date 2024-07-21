@@ -5,6 +5,10 @@
 </div>
 
 <app-users-form 
-[userSelected]="userSelected">
+*ngIf="userSelectedIndex != undefined"
+[userSelected]="userSelected"
+(onFormSubmit)="onFormSubmit()"
+>
+
     
 </app-users-form>

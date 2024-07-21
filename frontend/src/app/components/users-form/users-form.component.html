@@ -63,10 +63,10 @@
                             <th mat-header-cell *matHeaderCellDef>Ações</th>
                             <td mat-cell *matCellDef="let pass">
                                 <button mat-icon-button color="primary"
-                                    (click)="toggleBoardingPassStatus(pass.id, pass.status)">
+                                    (click)="handleActionClick($event); toggleBoardingPassStatus(pass.id, pass.status)">
                                     <mat-icon>{{ pass.status ? 'toggle_on' : 'toggle_off' }}</mat-icon>
                                 </button>
-                                <button mat-icon-button color="warn" (click)="deleteBoardingPass(pass.id)">
+                                <button mat-icon-button color="warn" (click)="handleActionClick($event); deleteBoardingPass(pass.id)">
                                     <mat-icon>delete</mat-icon>
                                 </button>
                             </td>

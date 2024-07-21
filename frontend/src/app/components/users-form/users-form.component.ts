@@ -95,4 +95,9 @@ export class UsersFormComponent implements OnInit, OnChanges {
       pass.status = status;
     }
   }
+
+  handleActionClick(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+}
 }
