@@ -2,7 +2,7 @@ package com.urbana.desafio.utils;
 
 
 import com.urbana.desafio.api.dtos.UserDTO;
-import com.urbana.desafio.api.dtos.UserInsertDTO;
+import com.urbana.desafio.api.dtos.UserInsertUpdateDTO;
 import com.urbana.desafio.domain.entities.BoardingPass;
 import com.urbana.desafio.domain.entities.User;
 
@@ -74,12 +74,12 @@ public class UserFactory {
         return new UserDTO(createUser2());
     }
 
-    public static UserInsertDTO createUserInsertDTO(Long id, String name, String email, String password, Set<BoardingPass> boardingPassTypes) {
-        return new UserInsertDTO(id, name, email, password, boardingPassTypes);
+    public static UserInsertUpdateDTO createUserInsertDTO(Long id, String name, String email, String password, Set<BoardingPass> boardingPassTypes) {
+        return new UserInsertUpdateDTO(id, name, email, password, boardingPassTypes);
     }
 
-    public static UserInsertDTO createDefaultUserInsertDTO() {
+    public static UserInsertUpdateDTO createDefaultUserInsertDTO() {
         Set<BoardingPass> defaultBoardingPassTypes = createDefaultBoardingPassTypes();
-        return new UserInsertDTO(1L, "Default User", "default@example.com", "defaultPassword", defaultBoardingPassTypes);
+        return new UserInsertUpdateDTO(1L, "Default User", "default@example.com", "defaultPassword", defaultBoardingPassTypes);
     }
 }

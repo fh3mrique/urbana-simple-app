@@ -2,11 +2,11 @@ package com.urbana.desafio.service;
 
 
 import com.urbana.desafio.api.dtos.UserDTO;
-import com.urbana.desafio.api.dtos.UserInsertDTO;
+import com.urbana.desafio.api.dtos.UserInsertUpdateDTO;
 import com.urbana.desafio.domain.entities.BoardingPass;
 import com.urbana.desafio.domain.entities.User;
-import com.urbana.desafio.domain.repositories.BoardingPassRepository;
-import com.urbana.desafio.domain.repositories.UserRepository;
+import com.urbana.desafio.repositories.BoardingPassRepository;
+import com.urbana.desafio.repositories.UserRepository;
 import com.urbana.desafio.services.UserService;
 import com.urbana.desafio.services.exceptions.DatabaseExceptions;
 import com.urbana.desafio.services.exceptions.ResourcesNotFoundExceptions;
@@ -47,7 +47,7 @@ public class UserServicesTests {
     private Long idNaoExistente;
     private Long idDependente;
 
-    private UserInsertDTO dto;
+    private UserInsertUpdateDTO dto;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -85,7 +85,7 @@ public class UserServicesTests {
 
         Set<BoardingPass> boardingPassTypes = UserFactory.createBoardingPassTypes(type1, type2);
 
-        UserInsertDTO userInsertDTO = new UserInsertDTO(null, "John Doe", "john.doe@example.com", "password123", boardingPassTypes);
+        UserInsertUpdateDTO userInsertDTO = new UserInsertUpdateDTO(null, "John Doe", "john.doe@example.com", "password123", boardingPassTypes);
 
         User userEntity = UserFactory.createUser(null, "John Doe", "john.doe@example.com", "password123", boardingPassTypes);
 
@@ -93,7 +93,7 @@ public class UserServicesTests {
         when(boardingPassTypeRepository.findById(type2.getId())).thenReturn(Optional.of(type2));
         when(repository.save(any(User.class))).thenReturn(userEntity);
 
-        UserInsertDTO result = service.insert(userInsertDTO);
+        UserInsertUpdateDTO result = service.insert(userInsertDTO);
 
         assertEquals(userInsertDTO.name(), result.name());
         assertEquals(userInsertDTO.email(), result.email());
@@ -135,7 +135,7 @@ public class UserServicesTests {
     //TESTANDO MÉTODO "update" DO SERVICE
     @Test
     public void updateShouldProductDtoWhenIdExistir() {
-        UserInsertDTO result = service.update(idExistente, dto);
+        UserInsertUpdateDTO result = service.update(idExistente, dto);
 
         Assertions.assertNotNull(result);
     }
