@@ -4,6 +4,7 @@ import { IUser } from "../interfaces/user/user.interface";
 import { TypeBoardingPass } from "../interfaces/user/boarding-pass.interface";
 import { UserListResponse } from "../types/users-list-response";
 import { HttpClient } from "@angular/common/http";
+import { IUserUpdate } from "../interfaces/user/user-insert.interface";
 
 
 @Injectable({
@@ -63,6 +64,10 @@ export class UserService {
 
     getUsers(): Observable<UserListResponse> {
         return this.http.get<UserListResponse>(this.apiUrl);
+    }
+
+    updateUser(user: IUser): Observable<IUser> {
+        return this.http.put<IUser>(`${this.apiUrl}/${user.id}`, user);
     }
 
     deleteBoardingPass(userId: number, boardingPassId: number): Observable<void> {

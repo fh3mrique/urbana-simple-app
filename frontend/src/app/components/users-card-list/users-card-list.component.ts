@@ -7,6 +7,7 @@ import { UserListResponse } from '../../types/users-list-response';
   styleUrl: './users-card-list.component.scss'
 })
 export class UsersCardListComponent {
+
     @Input()
     usersList : UserListResponse = [];
 
@@ -14,6 +15,11 @@ export class UsersCardListComponent {
 
     onUserSelected(userIndex: number){
       this.onUserSelectedEmitt.emit(userIndex);
+    }
+
+    deleteUser(event: Event) {
+      event.preventDefault()
+      console.log("deletando usuario")
     }
 
 }

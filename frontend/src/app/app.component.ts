@@ -6,6 +6,7 @@ import { IUser } from './interfaces/user/user.interface';
 
 import { UserBeforeAndAfterDialogComponent } from './components/user-before-and-after-dialog/user-before-and-after-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +25,7 @@ export class AppComponent implements OnInit {
     private readonly _usersService: UserService,
     private readonly _usersBoadingPass: boardingPassService,
     private readonly _matDialog: MatDialog,
+    private snackBar: MatSnackBar, 
   ) { }
 
   ngOnInit() {
@@ -64,12 +66,19 @@ export class AppComponent implements OnInit {
   }
 
   confirmUserUpdate(updatedUser: IUser, userSelectedIndex: number) {
-      this.usersList[userSelectedIndex] = structuredClone(updatedUser);
-
-      console.group('ALTERAÇÃO FINALIZADA - Lista de usúarios atualizada');
-
-      console.log('Lista de usuários atual', this.usersList)
-      console.groupEnd()
+    this._usersService.updateUser(updatedUser).subscribe({
+      next: (user) => {
+        this.usersList[userSelectedIndex] = structuredClone(user);
+        this.snackBar.open('Usuário atualizado com sucesso!', 'Fechar', { duration: 3000 });
+        console.group('ALTERAÇÃO FINALIZADA - Lista de usuários atualizada');
+        console.log('Lista de usuários atual', this.usersList);
+        console.groupEnd();
+      },
+      error: (err) => {
+        this.snackBar.open('Erro ao atualizar usuário.', 'Fechar', { duration: 3000 });
+        console.error(err);
+      }
+    });
   }
 
   private getUsers() {

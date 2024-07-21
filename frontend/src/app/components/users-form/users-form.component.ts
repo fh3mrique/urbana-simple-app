@@ -4,28 +4,29 @@ import { UserService } from '../../services/users.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgForm } from '@angular/forms';
 
-
-
 @Component({
   selector: 'app-users-form',
   templateUrl: './users-form.component.html',
-  styleUrl: './users-form.component.scss'
+  styleUrls: ['./users-form.component.scss']
 })
 export class UsersFormComponent implements OnInit, OnChanges {
 
   @Input() userSelected: IUser = {} as IUser;
 
-  @Output('onFormSubmit') onFormSubmitEmitt = new EventEmitter<void>
+  @Output('onFormSubmit') onFormSubmitEmitt = new EventEmitter<IUser>();
 
   displayedColumns: string[] = ['id', 'typeBoardingPass', 'number', 'status', 'actions' ];
 
-  constructor(private userService: UserService, private snackBar: MatSnackBar, private readonly _elRef: ElementRef) {}
+  constructor(
+    private userService: UserService, 
+    private snackBar: MatSnackBar, 
+    private readonly _elRef: ElementRef
+  ) {}
   
-  
-  ngOnInit() {
-  }
+  ngOnInit() {}
+
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("userSelected", this.userSelected)
+    console.log("userSelected", this.userSelected);
   }
 
   getImageForType(type: string): string {
@@ -42,23 +43,19 @@ export class UsersFormComponent implements OnInit, OnChanges {
   }
 
   onFormSubmit(form: NgForm) {
-    if(form.invalid) {
+    if (form.invalid) {
       this.focusOnInvalidControl(form);
-
       return;
     }
 
-    console.log('VALIDO');
-    this.onFormSubmitEmitt.emit();
+    this.onFormSubmitEmitt.emit(this.userSelected);
   }
 
   focusOnInvalidControl(form: NgForm) {
     for (const control of Object.keys(form.controls)) {
       if(form.controls[control].invalid) {
         const invalidControl: HTMLElement = this._elRef.nativeElement.querySelector(`[name=${control}]`);
-
         invalidControl.focus();
-
         break;
       }
     }
@@ -99,5 +96,5 @@ export class UsersFormComponent implements OnInit, OnChanges {
   handleActionClick(event: MouseEvent): void {
     event.preventDefault();
     event.stopPropagation();
-}
+  }
 }
