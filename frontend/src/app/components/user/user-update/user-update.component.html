@@ -1,0 +1,86 @@
+<div class="form-user-insert-container mat-elevation-z8">
+    <form action="">
+        <h1 class="update-user-title">Atualizar usuário</h1>
+
+        <div>
+            <p>
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Nome</mat-label>
+                    <input [(ngModel)]="user.name" name="name" [formControl]="name" required matInput
+                        placeholder="Placeholder" maxlength="50">
+                    <mat-icon matSuffix>user</mat-icon>
+                </mat-form-field>
+            </p>
+        </div>
+
+        <div class="row-inputs">
+            <p>
+                <mat-form-field class="half-width" appearance="fill">
+                    <mat-label>Email</mat-label>
+                    <input [(ngModel)]="user.email" name="email" [formControl]="email" required matInput
+                        placeholder="Placeholder">
+                    <mat-icon matSuffix>email</mat-icon>
+                </mat-form-field>
+            </p>
+
+            <p>
+                <mat-form-field class="half-width" appearance="fill">
+                    <mat-label>Senha</mat-label>
+                    <input [(ngModel)]="user.password" name="password" [formControl]="password" required type="password"
+                        matInput placeholder="Placeholder">
+                    <mat-icon matSuffix>password</mat-icon>
+                </mat-form-field>
+            </p>
+        </div>
+
+        <div class="user-form__row" *ngIf="user.boardingPasses">
+            <div class="user-form__boardingPasses">
+                <mat-divider></mat-divider>
+                <table mat-table [dataSource]="user.boardingPasses" class="mat-elevation-z8">
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef>Id do Cartão</th>
+                        <td mat-cell *matCellDef="let pass">{{ pass.id }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="typeBoardingPass">
+                        <th mat-header-cell *matHeaderCellDef>Tipo do Cartão</th>
+                        <td mat-cell *matCellDef="let pass">
+                            <img [src]="getImageForType(pass.typeBoardingPass)" alt="{{ pass.typeBoardingPass }}"
+                                width="90">
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="number">
+                        <th mat-header-cell *matHeaderCellDef>Número do Cartão</th>
+                        <td mat-cell *matCellDef="let pass">{{ pass.number }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef>Status</th>
+                        <td mat-cell *matCellDef="let pass">{{ pass.status ? 'Ativo' : 'Inativo' }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef>Ações</th>
+                        <td mat-cell *matCellDef="let pass">
+                            <button mat-icon-button color="primary" (click)="toggleBoardingPassStatus(pass)">
+                                <mat-icon>{{ pass.status ? 'toggle_on' : 'toggle_off' }}</mat-icon>
+                            </button>
+                            <button mat-icon-button color="warn" (click)="deleteBoardingPass(pass)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-user-update-btn-container">
+            <button (click)="update()" [disabled]="validateFields()" mat-flat-button color="primary">Cadastrar</button>
+            <button routerLink="../../" mat-stroked-button color="warn">Cancelar</button>
+        </div>
+    </form>
+</div>
