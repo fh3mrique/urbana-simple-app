@@ -2,6 +2,9 @@ package com.urbana.desafio.domain.entities;
 
 import com.urbana.desafio.domain.enums.UserRole;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,13 +22,19 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @NotNull
     private String name;
+    @NotBlank
+    @Email
     private String email;
+
+    @NotBlank
+    @NotNull
     private String password;
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
-
 
     @ManyToMany
     @JoinTable
@@ -90,9 +99,6 @@ public class User implements UserDetails {
     // um catão deve ser feito por um endpoit
     public Set<BoardingPass> getBoardingPassTypes() {
         return boardingPassTypes;
-    }
-
-    public void setBoardingPassTypes(Set<BoardingPass> boardingPassTypes) {
     }
 
     @Override

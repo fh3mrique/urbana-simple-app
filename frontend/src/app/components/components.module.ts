@@ -1,29 +1,36 @@
 import { NgModule } from "@angular/core";
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { BrowserModule } from "@angular/platform-browser";
 import { AngularMaterialModule } from "../angular-material.module";
-import { DirectiveModule } from "../directives/directive.module";
-import { PipesModule } from "../pipes/pipes.module";
-import { UsersCardListComponent } from './users-card-list/users-card-list.component';
-import { UsersFormComponent } from './users-form/users-form.component';
-import { UserBeforeAndAfterDialogComponent } from './user-before-and-after-dialog/user-before-and-after-dialog.component';
+import { NavComponent } from './nav/nav.component';
+import { HomeComponent } from './home/home.component';
+import { AppRoutingModule } from "../app-routing.module";
+import { HeaderComponent } from './header/header.component';
+import { UsersListComponent } from './users-list/users-list.component';
+import { LoginComponent } from './login/login.component';
+import { UsersCreateComponent } from './user/users-create/users-create.component';
 @NgModule(
     {
         declarations: [
-            UsersCardListComponent,
-            UsersFormComponent,
-            UserBeforeAndAfterDialogComponent
+            NavComponent,
+            HomeComponent,
+            HeaderComponent,
+            UsersListComponent,
+            LoginComponent,
+            UsersCreateComponent
         ],
         imports: [
             FormsModule,
+            ReactiveFormsModule,
             BrowserModule,
             AngularMaterialModule,
-            DirectiveModule,
-            PipesModule
+            AppRoutingModule,
+            /* aula 37 11.22min */
+            /* ToastrModule  */
         ],
         exports: [
-            UsersCardListComponent,
-            UsersFormComponent
+            AngularMaterialModule,
+            AppRoutingModule
         ],
     }
 )

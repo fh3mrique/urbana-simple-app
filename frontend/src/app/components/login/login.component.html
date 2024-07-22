@@ -1,0 +1,30 @@
+<div class="login-container">
+    <form class="form">
+        <mat-form-field class="full-width">
+          <mat-label>Email</mat-label>
+
+          <input 
+            [formControl]="email"
+            required
+            [(ngModel)]="creds.email" 
+            name="email" 
+            matInput 
+            placeholder="Ex. Pizza">
+        </mat-form-field>
+
+
+        <mat-form-field class="full-width">
+          <mat-label>Senha</mat-label>
+          <input 
+            [(ngModel)]="creds.password"
+            [formControl]="email"
+            required 
+            name="password" 
+            type="password" 
+            matInput 
+            placeholder="Ex. Pizza">
+        </mat-form-field>
+
+        <button (click)="login()" [disabled]="!validatedFields()" type="submit">Entrar</button>
+      </form>
+</div>

@@ -65,12 +65,6 @@ public class BoardingPassService {
         return user.getBoardingPassTypes().stream().map(BoardingPassDTO::new).collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public List<BoardingPassDTO> findAll() {
-        List<BoardingPass> boardingPasses = repository.findAll();
-        return boardingPasses.stream().map(BoardingPassDTO::new).collect(Collectors.toList());
-    }
-
     public void deleteBoardingPassFromUser(Long userId, Long boardingPassId) {
         Optional<User> userOpt = userRepository.findById(userId);
         Optional<BoardingPass> boardingPassOpt = repository.findById(boardingPassId);

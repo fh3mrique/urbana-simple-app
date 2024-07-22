@@ -2,6 +2,7 @@ package com.urbana.desafio.domain.entities;
 
 import com.urbana.desafio.domain.enums.TypeBoardingPass;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +19,7 @@ public class BoardingPass {
     private Boolean status = Boolean.TRUE;
 
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Boarding pass type cannot be null")
     private TypeBoardingPass typeBoardingPass;
 
     @ManyToMany(mappedBy = "boardingPassTypes")

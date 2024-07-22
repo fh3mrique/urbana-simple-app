@@ -5,16 +5,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ComponentsModule } from './components/components.module';
-import { HttpClientModule } from '@angular/common/http';
-
+import { HttpClient } from '@angular/common/http';
+import { AngularMaterialModule } from './angular-material.module';
+import { HttpClientModule } from '@angular/common/http';  // Import HttpClientModule
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    AppRoutingModule, 
     ComponentsModule,
+    /* AngularMaterialModule */
     HttpClientModule,
   ],
   providers: [

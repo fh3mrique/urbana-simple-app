@@ -1,15 +1,3 @@
-<div style="margin-bottom: 20px;">
-    <app-users-card-list 
-      [usersList]="usersList" 
-      (onUserSelected)="onUserSelected($event)">
-    </app-users-card-list>
-  </div>
-  
-  <app-users-form 
-    *ngIf="userSelectedIndex != undefined"
-    [userSelected]="userSelected"
-    (onFormSubmit)="onFormSubmit($event)"
-    (onDeleteBoardingPass)="onDeleteBoardingPass($event)"
-    (onToggleBoardingPassStatus)="onToggleBoardingPassStatus($event)">
-  </app-users-form>
-  
+<router-outlet>
+    
+</router-outlet>

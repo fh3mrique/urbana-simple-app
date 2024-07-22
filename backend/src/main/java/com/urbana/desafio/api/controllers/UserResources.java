@@ -5,6 +5,13 @@ import com.urbana.desafio.api.dtos.UserDTO;
 import com.urbana.desafio.api.dtos.UserInsertUpdateDTO;
 import com.urbana.desafio.services.BoardingPassService;
 import com.urbana.desafio.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -13,8 +20,9 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/users")
+@RequestMapping(value = "api/users", produces = "application/json")
 @CrossOrigin(origins = "*")
+@Tag(name = "RECURSOS DE USUÁRIOS")
 public class UserResources {
 
     private UserService service;
@@ -26,14 +34,25 @@ public class UserResources {
         this.boardingPassService = boardingPassService;
     }
 
-    @GetMapping
+    @Operation(summary = "Realiza uma busca por todos os usuários cadastrados", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Retornou todos os usuários com sucesso."),
+            @ApiResponse(responseCode = "500", description = "Servidor fora do ar ou indisponivel.")
+    })
+    @GetMapping()
     public ResponseEntity<List<UserDTO>> findAll(){
         List<UserDTO> users = service.findAll();
         return  ResponseEntity.ok().body(users);
     }
 
     @PostMapping
-    public ResponseEntity<UserInsertUpdateDTO> insert(@RequestBody UserInsertUpdateDTO dto){
+    @Operation(summary = "INSERE UM NOVO USUÁRIO NA API", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Inseriu um novo usuário com sucesso."),
+            @ApiResponse(responseCode = "500", description = "Servidor fora do ar ou indisponivel.")
+    })
+    public ResponseEntity<UserInsertUpdateDTO> insert(
+            @Parameter( name = "Corpo", description = "ID usuário que será atualizado", required = true) @Valid @RequestBody UserInsertUpdateDTO dto){
 
         dto = service.insert(dto);
 
@@ -42,16 +61,23 @@ public class UserResources {
         return ResponseEntity.created(uri).body(dto);
     }
 
+    @Operation(summary = "ATUALIZA UM USUÁRIO EXISTENTE")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User updated successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserInsertUpdateDTO> update(@PathVariable Long id, @RequestBody UserInsertUpdateDTO dto) {
+    public ResponseEntity<UserInsertUpdateDTO> update(
+            @Parameter(description = "ID usuário que será atualizado", required = true, example = "1") @Valid @PathVariable Long id,
+            @Parameter(description = "Corpo do usuário que será atualizado", required = true) @RequestBody UserInsertUpdateDTO dto) {
 
         dto = service.update(id, dto);
-
         return ResponseEntity.ok().body(dto);
     }
 
+
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@Valid @PathVariable Long id) {
 
         service.delete(id);
 

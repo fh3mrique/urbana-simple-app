@@ -1,30 +1,28 @@
-import { NgModule } from "@angular/core";
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatDividerModule} from '@angular/material/divider';
-import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import {MatIconModule} from '@angular/material/icon';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from '@angular/material/dialog';
-
-
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { NgModule } from '@angular/core';
 
 @NgModule(
-  {
-    imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatDividerModule, MatTableModule, 
-      MatSnackBarModule,MatIconModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose],
-    exports: [MatCardModule, MatFormFieldModule, MatInputModule, 
-      MatDividerModule, MatTableModule, MatSnackBarModule, MatIconModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose],
-  }
-)
-export class AngularMaterialModule { }
+    {
+      imports: [MatCardModule, MatFormFieldModule, MatInputModule, MatTableModule, 
+        MatSnackBarModule,MatIconModule,MatPaginatorModule, MatToolbarModule, 
+        MatCheckboxModule, MatButtonModule, MatSidenavModule,MatSelectModule, MatRadioModule, MatListModule],
+
+      exports: [MatCardModule, MatFormFieldModule, MatInputModule, 
+      MatTableModule, MatSnackBarModule, MatIconModule,MatToolbarModule, 
+      MatCheckboxModule, MatButtonModule, MatSidenavModule,MatSelectModule, MatRadioModule, MatListModule],
+    }
+  )
+  export class AngularMaterialModule { }

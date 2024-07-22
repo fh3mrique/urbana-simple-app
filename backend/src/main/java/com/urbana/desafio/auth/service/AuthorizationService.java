@@ -8,6 +8,7 @@ import com.urbana.desafio.repositories.UserRepository;
 import com.urbana.desafio.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,20 +45,21 @@ public class AuthorizationService implements UserDetailsService{
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
         var token = tokenService.generateToken((User) auth.getPrincipal());
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+
+        // Adiciona o token no cabeçalho Authorization
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+
+        // Retorna a resposta com o cabeçalho Authorization
+        return ResponseEntity.ok().headers(headers).body(new LoginResponseDTO(token));
     }
 
-
-    public ResponseEntity<Object> register (@RequestBody RegisterDTO registerDto){
-        if (this.userRepository.findByEmail(registerDto.email()) != null ) return ResponseEntity.badRequest().build();
+    public ResponseEntity<Object> register(@RequestBody RegisterDTO registerDto){
+        if (this.userRepository.findByEmail(registerDto.email()) != null) return ResponseEntity.badRequest().build();
         String encryptedPassword = new BCryptPasswordEncoder().encode(registerDto.password());
 
         User newUser = new User(registerDto.email(), encryptedPassword, registerDto.role());
         this.userRepository.save(newUser);
         return ResponseEntity.ok().build();
     }
-
-
-
-
 }
