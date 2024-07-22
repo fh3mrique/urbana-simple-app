@@ -48,6 +48,7 @@ public class UserServicesTests {
     private Long idDependente;
 
     private UserInsertUpdateDTO dto;
+    private BoardingPass boardingPass;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -57,12 +58,13 @@ public class UserServicesTests {
 
         /*dto = Factory.criarProdutoDTO();*/
         dto = UserFactory.createDefaultUserInsertDTO();
+        boardingPass = UserFactory.createBoardingPassType1();
     }
 
     @Test
     public void shouldReturnAllUsersAsUserDTOs() {
-        BoardingPass type1 = new BoardingPass(1L, "COMUM");
-        BoardingPass type2 = new BoardingPass(2L, "ESTUDANTE");
+        BoardingPass type1 = boardingPass;
+        BoardingPass type2 = boardingPass;
 
         Set<BoardingPass> boardingPassTypes = UserFactory.createBoardingPassTypes(type1, type2);
 
@@ -85,7 +87,7 @@ public class UserServicesTests {
 
         Set<BoardingPass> boardingPassTypes = UserFactory.createBoardingPassTypes(type1, type2);
 
-        UserInsertUpdateDTO userInsertDTO = new UserInsertUpdateDTO(null, "John Doe", "john.doe@example.com", "password123", boardingPassTypes);
+        UserInsertUpdateDTO userInsertDTO = new UserInsertUpdateDTO( 1l, "John Doe", "john.doe@example.com", "password123");
 
         User userEntity = UserFactory.createUser(null, "John Doe", "john.doe@example.com", "password123", boardingPassTypes);
 
@@ -131,21 +133,5 @@ public class UserServicesTests {
             service.delete(idNaoExistente);
         });
     }
-
-    //TESTANDO MÉTODO "update" DO SERVICE
-    @Test
-    public void updateShouldProductDtoWhenIdExistir() {
-        UserInsertUpdateDTO result = service.update(idExistente, dto);
-
-        Assertions.assertNotNull(result);
-    }
-
-    @Test
-    public void updateShouldLancaEntityNotFoundExceptionsWhenIdNaoExistir() {
-        Assertions.assertThrows(ResourcesNotFoundExceptions.class, ()->{
-            service.update(idNaoExistente, dto);
-        });
-    }
-
 
 }

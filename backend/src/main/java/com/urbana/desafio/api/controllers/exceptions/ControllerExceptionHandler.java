@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.Instant;
 
 @ControllerAdvice
@@ -37,6 +38,18 @@ public class ControllerExceptionHandler {
 		err.setMessage(e.getMessage());
 		err.setPath(request.getRequestURI());
 		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err) ;
+	}
+	@ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+	public ResponseEntity<StandardErro> database (SQLIntegrityConstraintViolationException e, HttpServletRequest request ){
+		StandardErro err = new StandardErro();
+
+		err.setTimestamp(Instant.now());
+		err.setStatus(HttpStatus.BAD_REQUEST.value());
+		err.setError("Database exception");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err) ;
 	}
 }

@@ -5,6 +5,7 @@ import com.urbana.desafio.api.dtos.UserDTO;
 import com.urbana.desafio.api.dtos.UserInsertUpdateDTO;
 import com.urbana.desafio.domain.entities.BoardingPass;
 import com.urbana.desafio.domain.entities.User;
+import com.urbana.desafio.domain.enums.TypeBoardingPass;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +18,6 @@ public class UserFactory {
         user.setName(name);
         user.setEmail(email);
         user.setPassword(password);
-        user.setBoardingPassTypes(boardingPassTypes);
         return user;
     }
 
@@ -30,11 +30,12 @@ public class UserFactory {
     }
 
     public static BoardingPass createBoardingPassType1() {
-        return new BoardingPass(1L, "Economy");
+        return new BoardingPass(1L, 24534l, true, TypeBoardingPass.COMUM);
     }
 
     public static BoardingPass createBoardingPassType2() {
-        return new BoardingPass(2L, "Business");
+
+        return new BoardingPass(2L, 24534l, true, TypeBoardingPass.ESTUDANTE);
     }
 
     public static Set<BoardingPass> createDefaultBoardingPassTypes() {
@@ -51,7 +52,6 @@ public class UserFactory {
         user.setName("John Doe");
         user.setEmail("john.doe@example.com");
         user.setPassword("password123");
-        user.setBoardingPassTypes(boardingPassTypes);
         return user;
     }
 
@@ -62,8 +62,11 @@ public class UserFactory {
         user.setName("Jane Doe");
         user.setEmail("jane.doe@example.com");
         user.setPassword("password456");
-        user.setBoardingPassTypes(boardingPassTypes);
         return user;
+    }
+
+    public static UserInsertUpdateDTO createUserInsertUpdateDTO() {
+        return new UserInsertUpdateDTO(1L, "Default User", "default@example.com", "password123");
     }
 
     public static UserDTO createUserDTO1() {
@@ -74,12 +77,12 @@ public class UserFactory {
         return new UserDTO(createUser2());
     }
 
-    public static UserInsertUpdateDTO createUserInsertDTO(Long id, String name, String email, String password, Set<BoardingPass> boardingPassTypes) {
-        return new UserInsertUpdateDTO(id, name, email, password, boardingPassTypes);
-    }
+   /* public static UserInsertUpdateDTO createUserInsertDTO(Long id, String name, String email, String password, Set<BoardingPass> boardingPassTypes) {
+        return new UserInsertUpdateDTO(1, 'arthur', 'er@gmail', "");
+    }*/
 
     public static UserInsertUpdateDTO createDefaultUserInsertDTO() {
         Set<BoardingPass> defaultBoardingPassTypes = createDefaultBoardingPassTypes();
-        return new UserInsertUpdateDTO(1L, "Default User", "default@example.com", "defaultPassword", defaultBoardingPassTypes);
+        return new UserInsertUpdateDTO(1L, "Default User", "default@example.com", "defaultPassword");
     }
 }
