@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,10 +76,17 @@ public class UserService {
         }
     }
 
+    public UserDTO findById(Long id) {
+        Optional<User> obj = repository.findById(id);
+        User entity = obj.orElseThrow( () -> new ResourcesNotFoundExceptions("Entidade não encontrada"));
+        return new UserDTO(entity);
+    }
+
     private void copyDTOtoEnrity(UserInsertUpdateDTO dto, User entity) {
         entity.setName(dto.name());
         entity.setEmail(dto.email());
         entity.setPassword(dto.password());
     }
+
 
 }

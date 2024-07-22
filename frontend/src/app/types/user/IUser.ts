@@ -1,7 +1,7 @@
 import { IBoardingPasses } from "./boarding-pass.interface";
 
 export interface IUser  {
-    id: number;
+    id?: any;
     name: string;
     email: string;
     password?: string

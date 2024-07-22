@@ -8,15 +8,16 @@ import { ComponentsModule } from './components/components.module';
 import { HttpClient } from '@angular/common/http';
 import { AngularMaterialModule } from './angular-material.module';
 import { HttpClientModule } from '@angular/common/http';  // Import HttpClientModule
+/* import { UsersListComponent } from './components/users-list/users-list.component'; */
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule, 
     ComponentsModule,
-    /* AngularMaterialModule */
+    AngularMaterialModule, 
     HttpClientModule,
   ],
   providers: [

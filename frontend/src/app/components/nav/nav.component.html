@@ -1,6 +1,12 @@
-<mat-drawer-container class="container" autosize>
+<mat-drawer-container>
+    <div class="nav-bar-space">
+
+    </div>
     <mat-drawer #drawer class="sidenav" mode="side">
       <mat-nav-list class="nav-link" >
+        <a href="nav-bar-space">
+
+        </a>
         <a mat-list-item routerLink="home">
             <i class="material-icons">home</i>
             Home
@@ -9,10 +15,10 @@
             <i class="material-icons">account_circle</i>
             Usuarios
         </a>
-        <a mat-list-item routerLink="/">
+        <!-- <a mat-list-item routerLink="/">
             <i class="material-icons">logout</i>
             logout
-        </a>
+        </a> -->
       </mat-nav-list>
     </mat-drawer>
   

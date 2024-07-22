@@ -1,30 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-import { IUser } from '../../types/user/IUser';
-import { UserService } from '../../services/user.service';
-
-
-
-const ELEMENT_DATA: IUser[] = [];
+import { MatTableDataSource } from '@angular/material/table';
+import { UserService } from '../../../services/user.service';
+import { IUser } from '../../../types/user/IUser';
 
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
-  styleUrl: './users-list.component.css'
+  styleUrls: ['./users-list.component.css']
 })
-export class UsersListComponent implements OnInit{
-  displayedColumns: string[] = ['id', 'name', 'email', 'symbol'];
-  dataSource = ELEMENT_DATA;
+export class UsersListComponent implements OnInit {
+  displayedColumns: string[] = ['id', 'name', 'email', 'actions'];
+  dataSource = new MatTableDataSource<IUser>();
 
-  constructor(private readonly _userService: UserService){}
-  
+  constructor(private readonly _userService: UserService) {}
+
   ngOnInit(): void {
-    this.findAll()
-  }
-  
-  findAll(){
-    this._userService.findAll().subscribe(response =>{
-      this.dataSource = response
-    })
+    this.findAll();
   }
 
+  findAll(): void {
+    this._userService.findAll().subscribe(response => {
+      this.dataSource.data = response;
+    });
+  }
+
+  deleteUser(id: number): void {
+    this._userService.deleteUser(id).subscribe(() => {
+      this.dataSource.data = this.dataSource.data.filter(user => user.id !== id);
+    });
+  }
 }

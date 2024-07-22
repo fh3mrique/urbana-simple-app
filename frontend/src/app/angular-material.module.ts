@@ -21,7 +21,7 @@ import { NgModule } from '@angular/core';
         MatCheckboxModule, MatButtonModule, MatSidenavModule,MatSelectModule, MatRadioModule, MatListModule],
 
       exports: [MatCardModule, MatFormFieldModule, MatInputModule, 
-      MatTableModule, MatSnackBarModule, MatIconModule,MatToolbarModule, 
+      MatTableModule, MatSnackBarModule, MatIconModule,MatToolbarModule, MatTableModule,
       MatCheckboxModule, MatButtonModule, MatSidenavModule,MatSelectModule, MatRadioModule, MatListModule],
     }
   )

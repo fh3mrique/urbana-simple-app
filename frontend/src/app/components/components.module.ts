@@ -6,18 +6,22 @@ import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from "../app-routing.module";
 import { HeaderComponent } from './header/header.component';
-import { UsersListComponent } from './users-list/users-list.component';
 import { LoginComponent } from './login/login.component';
 import { UsersCreateComponent } from './user/users-create/users-create.component';
+import { UsersListComponent } from "./user/users-list/users-list.component";
+import { UserUpdateComponent } from './user/user-update/user-update.component';
+import { UsersDeleteComponent } from './user/users-delete/users-delete.component';
 @NgModule(
     {
         declarations: [
             NavComponent,
             HomeComponent,
             HeaderComponent,
-            UsersListComponent,
             LoginComponent,
-            UsersCreateComponent
+            UsersCreateComponent,
+            UsersListComponent,
+            UserUpdateComponent,
+            UsersDeleteComponent
         ],
         imports: [
             FormsModule,
