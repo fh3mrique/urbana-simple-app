@@ -34,12 +34,12 @@
         </div>
 
         <div class="user-form__row" *ngIf="user.boardingPasses">
-            <div class="user-form__boardingPasses">
+            <div class="user-form__boardingPasses">C
                 <mat-divider></mat-divider>
                 <table mat-table [dataSource]="user.boardingPasses" class="mat-elevation-z8">
                     <ng-container matColumnDef="id">
                         <th mat-header-cell *matHeaderCellDef>Id do Cartão</th>
-                        <td mat-cell *matCellDef="let pass">{{ pass.id }}</td>
+                        <td mat-cell *matCellDef="let pass">{{ pass.status | statusLabel }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="typeBoardingPass">

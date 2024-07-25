@@ -11,6 +11,7 @@ import { UsersCreateComponent } from './user/users-create/users-create.component
 import { UsersListComponent } from "./user/users-list/users-list.component";
 import { UserUpdateComponent } from './user/user-update/user-update.component';
 import { UsersDeleteComponent } from './user/users-delete/users-delete.component';
+import { PipesModule } from "../pipes/pipes.module";
 @NgModule(
     {
         declarations: [
@@ -31,10 +32,12 @@ import { UsersDeleteComponent } from './user/users-delete/users-delete.component
             AppRoutingModule,
             /* aula 37 11.22min */
             /* ToastrModule  */
+            PipesModule
         ],
         exports: [
             AngularMaterialModule,
-            AppRoutingModule
+            AppRoutingModule,
+            PipesModule
         ],
     }
 )

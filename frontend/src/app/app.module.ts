@@ -19,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';  // Import HttpClientMo
     ComponentsModule,
     AngularMaterialModule, 
     HttpClientModule,
+    
   ],
   providers: [
     provideAnimationsAsync()
