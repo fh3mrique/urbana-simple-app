@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { IUser } from '../../../types/user/IUser';
 import { Route, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-users-create',
@@ -24,6 +25,7 @@ export class UsersCreateComponent {
   constructor(
     private readonly _userService: UserService,
     private readonly _route: Router,
+    private _snackBar: MatSnackBar
   ){}
   
   validateFields(): boolean {
@@ -33,8 +35,10 @@ export class UsersCreateComponent {
   create(): void {
     this._userService.create(this.user).subscribe( response =>{
       console.log(response);
+      this._snackBar.open("Usuário cadastrado com sucesso.",  "Fechar")
       this._route.navigate(["users"])
     }, err =>{
+      this._snackBar.open("Erro cadastrar usuário.",  "Fechar")
       console.log(err);
     })
   }

@@ -3,6 +3,7 @@ import { UserService } from '../../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 import { IUser } from '../../../types/user/IUser';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-update',
@@ -26,7 +27,8 @@ export class UserUpdateComponent implements OnInit {
   constructor(
     private readonly _userService: UserService,
     private readonly _router: Router,
-    private readonly _route: ActivatedRoute
+    private readonly _route: ActivatedRoute,
+    private _snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -47,6 +49,7 @@ export class UserUpdateComponent implements OnInit {
   update(): void {
     this._userService.update(this.user).subscribe(response => {
       console.log(response);
+      this._snackBar.open("Usuário atualizado com sucesso", 'Fechar')
       this._router.navigate(["users"])
     }, err => {
       console.log(err);
@@ -71,10 +74,16 @@ export class UserUpdateComponent implements OnInit {
     if (newStatus) {
       this._userService.activateBoardingPass(this.user.id, pass.id).subscribe(() => {
         pass.status = newStatus;
+        this._snackBar.open("Cartão Ativado", "Fechar", {
+          duration: 2000,
+        })
       });
     } else {
       this._userService.deactivateBoardingPass(this.user.id, pass.id).subscribe(() => {
         pass.status = newStatus;
+        this._snackBar.open("Cartão Desativado", "Fechar", {
+          duration: 2000,
+        })
       });
     }
   }
@@ -82,6 +91,7 @@ export class UserUpdateComponent implements OnInit {
   deleteBoardingPass(pass: any): void {
     this._userService.deleteBoardingPass(this.user.id, pass.id).subscribe(() => {
       this.user.boardingPasses = this.user.boardingPasses?.filter(bp => bp.id !== pass.id);
+      this._snackBar.open("Cartão excluido com sucesso.", "Fechar")
     });
   }
 
