@@ -45,8 +45,7 @@
                     <ng-container matColumnDef="typeBoardingPass">
                         <th mat-header-cell *matHeaderCellDef>Tipo do Cartão</th>
                         <td mat-cell *matCellDef="let pass">
-                            <img [src]="getImageForType(pass.typeBoardingPass)" alt="{{ pass.typeBoardingPass }}"
-                                width="90">
+                            <img [src]="pass.typeBoardingPass | boardingPassImage" alt="{{ pass.typeBoardingPass }}" width="90">
                         </td>
                     </ng-container>
 
